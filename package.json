@@ -1,0 +1,27 @@
+{
+  "name": "image-labeller",
+  "version": "1.0.0",
+  "author": "Philippe Ozil",
+  "description": "Image labeller for Salesforce Einstein Object Detection",
+  "license": "see LICENSE file",
+  "private": true,
+  "main": "server/server.js",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.4.5",
+    "underscore": "~1.8.3",
+    "request": "~2.81.0",
+    "archiver": "~2.1.0",
+    "pg": "~7.3.0",
+    "pg-format": "~1.0.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server.js",
+    "build-n-start": "npm run build && npm run start"
+  },
+  "keywords": [],
+  "engines": {
+    "node": "8.7.x"
+  }
+}
