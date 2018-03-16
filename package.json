@@ -7,20 +7,57 @@
   "private": true,
   "main": "server/server.js",
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "express": "^4.4.5",
-    "underscore": "~1.8.3",
-    "request": "~2.81.0",
+    "@salesforce-ux/design-system": "^2.4.5",
     "archiver": "~2.1.0",
+    "babel-runtime": "^6.6.1",
+    "body-parser": "^1.18.2",
+    "cloudinary": "^1.9.1",
+    "connect-pg-simple": "^4.2.1",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
     "pg": "~7.3.0",
-    "pg-format": "~1.0.4"
+    "pg-format": "~1.0.4",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
+    "request": "~2.81.0",
+    "underscore": "~1.8.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^7.0.0",
+    "babel-jest": "^16.0.0",
+    "babel-plugin-espower": "^2.1.2",
+    "babel-plugin-transform-class-properties": "^6.19.0",
+    "babel-plugin-transform-object-rest-spread": "^6.8.0",
+    "babel-plugin-transform-runtime": "^6.8.0",
+    "babel-polyfill": "^6.20.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.5.0",
+    "babelify": "^8.0.0",
+    "eslint": "^4.14.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "react-lightning-design-system": "^2.5.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/server.js",
-    "build-n-start": "npm run build && npm run start"
+    "lint": "eslint --ext .js client/**",
+    "build": "rm -fr public/scripts && mkdir -p public/scripts && browserify -d client/app.js -o public/scripts/bundle.min.js -t [ babelify ]",
+    "build-n-start": "npm run build && npm run start",
+    "preinstall": "rm -fr public/assets",
+    "postinstall": "cp -r node_modules/@salesforce-ux/design-system/assets public"
   },
   "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pozil/image-labeller.git"
+  },
+  "homepage": "https://github.com/pozil/image-labeller",
   "engines": {
     "node": "8.7.x"
   }

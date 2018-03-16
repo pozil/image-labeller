@@ -1,0 +1,114 @@
+html, body, #react-root, #react-root>div { height: 100%; }
+
+.slds-text-link { cursor: pointer; }
+
+.slds-global-header_container {
+    box-shadow: 0 2px 4px rgba(0,0,0,.07);
+}
+
+.app-controls {
+	justify-content: flex-end;
+}
+
+.slds-context-bar__item svg {
+	fill: #00a1df;
+}
+
+.slds-context-bar__item a:hover svg {
+	fill: #005fb2;
+}
+
+.slds-context-bar__item.disabled {
+  background-color: #eaeaea;
+  color: #5a5a5a;
+  cursor: not-allowed;
+}
+
+.slds-context-bar__item.disabled svg {
+  fill: #777777;
+}
+
+.page {
+	height: calc(100% - 2.5rem);
+	margin-top: 2.5rem;
+}
+
+.tools-pane { height: 100%; }
+
+.tools-pane>button {
+	float: left;
+	height: 100%;
+	width: .75rem;
+	background: #fff;
+	border-radius: 0;
+	border: 1px solid #dddbda;
+}
+
+.tools-pane>article {
+  display: flex;
+  flex-direction: column;
+	width: calc(100% - .75rem);
+	height: 100%;
+}
+
+.tools-pane.collapsed>article {
+	display: none;
+}
+
+.tools-pane.collapsed>button {
+	position: absolute;
+	right: 0;
+	height: calc(100% - 2.5rem);
+}
+
+.editor-pane {
+	position: relative;
+  background-color: grey;
+  height: 100%;
+}
+
+.editor-pane img {
+	width: 100%;
+}
+
+.editor-pane canvas {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
+.new-object-form .slds-form-element__label {
+	padding-right: .25rem;
+}
+
+.object-list {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.object-list .slds-scrollable_y {
+  height: 100%;
+}
+
+.object-item p {
+  font-weight: bold;
+}
+
+/* Popover */
+.popover-anchor {
+  position: relative;
+  display: inline-block;
+}
+
+.slds-popover {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: calc(50% - 25px);
+  display: none;
+  white-space: normal;
+}
+
+.popover-anchor:hover .slds-popover {
+  display: block;
+}
