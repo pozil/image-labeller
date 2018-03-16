@@ -68,7 +68,8 @@ html, body, #react-root, #react-root>div { height: 100%; }
 }
 
 .editor-pane img {
-	width: 100%;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .editor-pane canvas {
