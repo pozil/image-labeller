@@ -5,10 +5,6 @@ const db = require('../util/db.js'),
   Label = require('../model/label.js');
   ObjectBox = require('../model/object-box.js');
 
-process.on('unhandledRejection', (reason, p) => {
-  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
-});
-
 module.exports = class ExportResource {
 
 	constructor(app, apiRoot) {

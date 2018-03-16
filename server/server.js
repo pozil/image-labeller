@@ -14,6 +14,10 @@ const Config = require('./model/config.js'),
   ImageResource = require('./rest/image.js'),
   ConfigResource = require('./rest/config.js');
 
+process.on('unhandledRejection', (reason, p) => {
+  console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
+});
+
 // Setup HTTP server
 const app = express();
 app.set('port', process.env.PORT || 8080);
