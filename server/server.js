@@ -1,6 +1,5 @@
 // 3rd party dependencies
 const db = require('./util/db.js'),
-  httpClient = require('request'),
 	path = require('path'),
   express = require('express'),
   session = require('express-session'),

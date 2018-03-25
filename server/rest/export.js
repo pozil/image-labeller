@@ -1,6 +1,8 @@
 const db = require('../util/db.js'),
+  httpClient = require('request'),
 	archiver = require('archiver'),
   fs = require('fs'),
+  Config = require('../model/config.js');
   Image = require('../model/image.js');
   Label = require('../model/label.js');
   ObjectBox = require('../model/object-box.js');
@@ -40,10 +42,33 @@ module.exports = class ExportResource {
 		archive.pipe(response);
 		// Add annotation CSV
     archive.append(annotations, { name: 'annotations.csv' });
-    //archive.directory('public/img', false);
+    await addImageFiles(archive);
 		// Finalize archive
 		archive.finalize();
 	}
+}
+
+async function addImageFiles(archive) {
+  const images = (await db.query('SELECT * FROM images')).rows;
+  const imageBaseUrl = await Config.get('imageProvider').then(config => {
+    if (config !== null) {
+      return 'https://res.cloudinary.com/'+ config.value.cloud_name +'/';
+    }
+  });
+
+  for (let i=0; i<images.length; i++) {
+    const image = images[i];
+    const objectCount = (await db.query('SELECT COUNT(*) AS objectcount FROM object_boxes WHERE image_id=$1', [image.id])).rows[0].objectcount;
+    if (objectCount > 0) {
+      const imageUrl = imageBaseUrl + image.filename;
+      let imageFilename = image.filename;
+      const slashIndex = imageFilename.lastIndexOf('/');
+      if (slashIndex !== -1) {
+        imageFilename = imageFilename.substring(slashIndex+1);
+      }
+      archive.append(httpClient.get(imageUrl), { name: imageFilename});
+    }
+  }
 }
 
 async function getAnnotationsCsv() {
@@ -61,7 +86,12 @@ async function getAnnotationsCsv() {
   // Write image rows
   for (let i=0; i<images.length; i++) {
     const image = images[i];
-    content += image.filename;
+    let imageFilename = image.filename;
+    const slashIndex = imageFilename.lastIndexOf('/');
+    if (slashIndex !== -1) {
+      imageFilename = imageFilename.substring(slashIndex+1);
+    }
+    content += imageFilename;
     
     const objects = (await db.query('SELECT * FROM object_boxes WHERE image_id=$1', [image.id])).rows;
     objects.forEach(object => {
