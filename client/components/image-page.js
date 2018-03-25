@@ -28,7 +28,7 @@ export default class ImagePage extends Component {
     const { images, imageContext } = this.props;
     return (
       <div className='page slds-grid slds-p-around_small'>
-        <article className='slds-card slds-size_1-of-1'>
+        <article className='slds-card slds-size_1-of-1 slds-scrollable_y'>
           <div className='slds-card__header slds-grid'>
             <header className='slds-media slds-media_center slds-has-flexi-truncate'>
               <div className='slds-media__figure slds-context-bar__item'>

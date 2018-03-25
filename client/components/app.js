@@ -18,6 +18,8 @@ import Image from '../model/image';
 import ProvidedImage from '../model/provided-image';
 import { Cookies, COOKIES } from '../util/cookies';
 
+const IMAGE_PAGE_SIZE = 50;
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -54,7 +56,7 @@ export default class App extends Component {
   loadMoreImages = (moveToNextImage=false) => {
     const { imageContext } = this.state;
     const imageBaseUrl = Cookies.get(COOKIES.IMAGE_BASE_URL);
-    ProvidedImage.getAll(10, imageContext.nextCursor).then((data) => {
+    ProvidedImage.getAll(IMAGE_PAGE_SIZE, imageContext.nextCursor).then((data) => {
       imageContext.nextCursor = (typeof data.next_cursor === 'undefined') ? null : data.next_cursor;
       const newImages = data.resources.map(image => ({
         originalSizeUrl: `${imageBaseUrl}/image/upload/${image.public_id}.${image.format}`,

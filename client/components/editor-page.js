@@ -152,6 +152,9 @@ export default class EditorPage extends Component {
   }
 
   previousImage = () => {
+    const objects = [];
+    this.setState({ objects });
+    this.state.canvas.setObjects(objects);
     const { index } = this.props.imageContext;
     if (index <= 0) {
       return;
@@ -160,6 +163,9 @@ export default class EditorPage extends Component {
   }
 
   nextImage = () => {
+    const objects = [];
+    this.setState({ objects });
+    this.state.canvas.setObjects(objects);
     const { index, nextCursor } = this.props.imageContext;
     if (index > this.props.images.length - 2 && nextCursor === null) {
       return;
