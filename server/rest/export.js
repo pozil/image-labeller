@@ -66,9 +66,19 @@ async function addImageFiles(archive) {
       if (slashIndex !== -1) {
         imageFilename = imageFilename.substring(slashIndex+1);
       }
-      archive.append(httpClient.get(imageUrl), { name: imageFilename});
+      await addRemoteUrlToArchive(archive, imageUrl, imageFilename);
     }
   }
+}
+
+function addRemoteUrlToArchive(archive, imageUrl, imageFilename) {
+  return new Promise((resolve, reject) => {
+    const stream = httpClient.get(imageUrl);
+    archive.append(stream, { name: imageFilename});
+    archive.once('entry', () => {
+      return resolve();
+    });
+  });
 }
 
 async function getAnnotationsCsv() {
