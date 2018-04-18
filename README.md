@@ -2,7 +2,7 @@
 
 ## Installation
 
-** /!\ This is work in progress so access to this tool is not secured yet: only work on a local installation. /!\ **
+<b>/!\ This is work in progress so access to this tool is not secured yet: only work on a local installation. /!\ </b>
 
 This tool requires the following:
 - NPM
