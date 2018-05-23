@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Icon, DropdownButton, DropdownMenuItem, ButtonGroup, Button } from 'react-lightning-design-system';
 
-export default class ImagePage extends Component {
+class ImagePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,6 +22,15 @@ export default class ImagePage extends Component {
     const { settings } = this.state;
     settings[key] = !settings[key];
     this.setState({ settings });
+  }
+
+  navigateToImage = event => {
+    const imageFilename = event.target.id;
+    const imageIndex = this.props.images.findIndex(image => image.filename === imageFilename);
+    if (imageIndex !== -1) {
+      this.props.onUpdateImageIndex(imageIndex);
+    }
+    this.props.history.push('/');
   }
 
   render() {
@@ -53,12 +63,12 @@ export default class ImagePage extends Component {
           <div className='slds-card__body'>
             <div className='slds-card__body_inner slds-grid slds-wrap slds-grid_pull-padded'>
               {images.map(image => (
-                <div className='slds-col slds-p-bottom_small slds-text-align_center' key={image.filename}>
-                  <img src={image.thumbnailUrl} alt={image.filename} title={image.filename} />
+                <a className='slds-col slds-p-bottom_small slds-text-align_center' key={image.filename} href="javascript:void(0)" onClick={this.navigateToImage}>
+                  <img src={image.thumbnailUrl} id={image.filename} alt={image.filename} title={image.filename}/>
                   {settings.showFilename &&
                     <p>{image.filename}</p>
                   }
-                </div>
+                </a>
               ))}
               {imageContext.nextCursor !== null &&
                 <div className='slds-size_1-of-1 slds-m-vertical_medium slds-text-align_center'>
@@ -73,3 +83,5 @@ export default class ImagePage extends Component {
     );
   }
 }
+
+export default withRouter(ImagePage);
