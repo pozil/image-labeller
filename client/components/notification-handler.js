@@ -25,7 +25,7 @@ export default class NotificationHandler extends Component {
       );
     }
     return (
-      <div className='slds-notify_container'>
+      <div className='slds-notify_container slds-m-top_x-large'>
         <Notification
           type='toast'
           level={notifEvent.type}
