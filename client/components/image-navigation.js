@@ -7,7 +7,7 @@ const ImageNavigation = ({ image, imageContext, onPreviousImage, onNextImage }) 
     <div>
       <Button icon='left' onClick={onPreviousImage} alt='Previous image' disabled={ image === null || imageContext.index <= 0 } />
       <span className='slds-m-horizontal_medium'>{ imageContext.index + 1 }/{ imageContext.nextCursor === null ? imageContext.count : `${imageContext.count}+`}</span>
-      <Button icon='right' onClick={onNextImage} alt='Next image' disabled={ image === null || imageContext.index >= imageContext.count - 1 } />
+      <Button icon='right' onClick={onNextImage} alt='Next image' disabled={ image === null || (imageContext.index >= imageContext.count - 1 && imageContext.nextCursor === null) } />
     </div>
   </div>
 );
