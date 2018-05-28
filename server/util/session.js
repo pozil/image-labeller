@@ -1,17 +1,22 @@
 
 /**
 *  Attemps to retrieves the server session.
-*  If there is no session, redirects with HTTP 401 and an error message
+*  If there is no session, return HTTP 401 and an error message
 */
-module.exports.getSession = (request, response, isRedirectOnMissingSession = false) => {
-  const { session } = request;
-  /*
-  if (!session.sfdcAuth) {
+module.exports.getSession = (request, response, isRedirectOnMissingSession = true) => {
+  if (typeof request.session.isAuthenticated === 'undefined') {
     if (isRedirectOnMissingSession) {
       response.status(401).send('No active session');
     }
     return null;
   }
-  */
-  return session;
+  return request.session;
+}
+
+module.exports.setAuthenticated = (request, response) => {
+  request.session.isAuthenticated = true;
+}
+
+module.exports.destroy = (request) => {
+  request.session.destroy();
 }

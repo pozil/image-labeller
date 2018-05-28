@@ -1,4 +1,5 @@
 const db = require('../util/db.js'),
+  Session = require('../util/session.js'),
   Config = require('../model/config.js'),
   cloudinary = require('cloudinary');
 
@@ -16,24 +17,29 @@ module.exports = class ConfigResource {
 	* Upsert a config
 	*/
 	upsertConfig(request, response) {
+    const curSession = Session.getSession(request, response);
+    if (curSession == null)
+      return;
+    
     Config.upsert(request.body).then(config => {
       // Test image provider config
       if (config.key === IMAGE_PROVIDER) {
-        ConfigResource.testConfig(response, config);
+        ConfigResource.testImageProviderConfig(response, config);
       } else {
         response.json(config);
       }
     })
-    .catch(e => {
-      console.log(e.stack);
-      response.status(500).json(e);
-    });
+    .catch(e => logAndReportError('Config.upsertConfig', e));
 	}
 
 	/**
 	* Gets a config based on its key. Returns a new config is none is set.
 	*/
 	getConfig(request, response) {
+    const curSession = Session.getSession(request, response);
+    if (curSession == null)
+      return;
+    
     Config.get(request.params.key).then(config => {
       if (config === null) {
         response.json({label: request.params.key, value: null});
@@ -41,13 +47,10 @@ module.exports = class ConfigResource {
         response.json(config);
       }
     })
-    .catch(e => {
-      console.log(e.stack);
-      response.status(500).json(e);
-    });
+    .catch(e => logAndReportError('Config.getConfig', e));
   }
 
-  static testConfig(response, config) {
+  static testImageProviderConfig(response, config) {
     const baseError = 'Image provider configuration test failed';
     try {
       cloudinary.config(config.value);
@@ -67,5 +70,10 @@ module.exports = class ConfigResource {
     } catch (error) {
       response.status(500).json({message: baseError +': '+ error});
     }
+  }
+
+  static logAndReportError(calledMethod, e) {
+    console.error(calledMethod, e.stack);
+    response.status(500).json(e);
   }
 }

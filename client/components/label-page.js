@@ -62,7 +62,7 @@ export default class LabelPage extends Component {
     const { labels } = this.state;
     return (
       <div className='page slds-grid slds-grid_vertical-stretch slds-p-around_small'>
-        <article className='slds-card slds-size_1-of-1'>
+        <article className='slds-card slds-size_1-of-1 slds-scrollable_y'>
           <div className='slds-card__header slds-grid'>
             <header className='slds-media slds-media_center slds-has-flexi-truncate'>
               <div className='slds-media__figure slds-context-bar__item'>

@@ -39,7 +39,7 @@ export default class ObjectBox extends BaseModel {
   }
 
   static getFromImage(imageId) {
-    return fetch(`${RESOURCE_URL}?imageId=${imageId}`).then(super.getJson);
+    return BaseModel.authFetch(`${RESOURCE_URL}?imageId=${imageId}`).then(super.getJson);
   }
 
   static create(box) {
@@ -48,10 +48,10 @@ export default class ObjectBox extends BaseModel {
 
   static delete(box) {
     const request = BaseModel.getJsonRequest('DELETE', RESOURCE_URL, box);
-    return fetch(request).then(super.getJson);
+    return BaseModel.authFetch(request).then(super.getJson);
   }
 
   static getCount() {
-    return fetch(`${RESOURCE_URL}/count`).then(super.getJson);
+    return BaseModel.authFetch(`${RESOURCE_URL}/count`).then(super.getJson);
   }
 }

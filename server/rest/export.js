@@ -1,4 +1,5 @@
 const db = require('../util/db.js'),
+  Session = require('../util/session.js'),
   httpClient = require('request'),
 	archiver = require('archiver'),
   fs = require('fs'),
@@ -13,8 +14,11 @@ module.exports = class ExportResource {
 		app.get(apiRoot +'export', this.exportZip);
 	}
 
-	async exportZip(request, response) {
-		
+	async exportZip(request, response) {  
+    const curSession = Session.getSession(request, response);
+    if (curSession == null)
+      return;
+
 		// Generate annotations CSV
 		const annotations = await getAnnotationsCsv();
 
@@ -45,7 +49,7 @@ module.exports = class ExportResource {
     await addImageFiles(archive);
 		// Finalize archive
 		archive.finalize();
-	}
+  }
 }
 
 async function addImageFiles(archive) {

@@ -96,6 +96,24 @@ html, body, #react-root, #react-root>div { height: 100%; }
   font-weight: bold;
 }
 
+.login-form {
+  width: 20rem;
+  position: absolute;
+  top: calc(50% - 10rem);
+  left: calc(50% - 10rem);
+}
+
+.login-form button {
+  width: 100%;
+}
+
+.login-form .loading-mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
 /* Popover */
 .popover-anchor {
   position: relative;

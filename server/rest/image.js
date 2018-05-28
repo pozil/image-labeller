@@ -1,4 +1,4 @@
-const db = require('../util/db.js'),
+const Session = require('../util/session.js'),
 	fs = require('fs'),
   cloudinary = require('cloudinary'),
   Image = require('../model/image.js');
@@ -13,6 +13,10 @@ module.exports = class ImageResource {
 	}
 
   getImagesFromCloudinary(request, response) {
+    const curSession = Session.getSession(request, response);
+    if (curSession == null)
+      return;
+    
     const params = {};
     if (typeof request.query.next_cursor !== 'undefined') {
       params.next_cursor = request.query.next_cursor;
@@ -31,27 +35,34 @@ module.exports = class ImageResource {
   }
 
   getFromFilename(request, response) {
+    const curSession = Session.getSession(request, response);
+    if (curSession == null)
+      return;
+    
     Image.getFromFilename(request.query.filename)
       .then(image => {
         response.json({image});
       })
-      .catch(e => {
-        console.log(e.stack);
-        response.status(500).json(e);
-      });
+      .catch(e => logAndReportError('Image.getFromFilename', e));
   }
   
   /**
 	* Gets the number of images
 	*/
 	getCount(request, response) {
+    const curSession = Session.getSession(request, response);
+    if (curSession == null)
+      return;
+    
     Image.getCount()
       .then(count => {
         response.json(count);
       })
-      .catch(e => {
-        console.log(e.stack);
-        response.status(500).json(e);
-      });
+      .catch(e => logAndReportError('Image.getCount', e));
+  }
+
+  static logAndReportError(calledMethod, e) {
+    console.error(calledMethod, e.stack);
+    response.status(500).json(e);
   }
 }

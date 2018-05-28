@@ -7,12 +7,13 @@ import {
 import NotificationHandler from './notification-handler';
 import NotificationHelper from '../util/notification-helper';
 import AppHeader from './app-header';
-import LoginForm from './login-form';
+import LoginPage from './login-page';
 import EditorPage from './editor-page';
 import ImagePage from './image-page';
 import LabelPage from './label-page';
 import ExportPage from './export-page';
 import SettingsPage from './settings-page';
+import Auth from '../model/auth';
 import Config from '../model/config';
 import Image from '../model/image';
 import ProvidedImage from '../model/provided-image';
@@ -24,8 +25,8 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoggedIn: false,
       isConfigValid: true,
-      user: { username: 'j@d.com', fullName: 'John Doe' },
       images: [],
       imageContext: {
         index: 0,
@@ -36,8 +37,16 @@ export default class App extends Component {
   }
 
   componentDidMount = () => {
+    Auth.isAuthenticated().then(result => {
+      if (result.isAuthenticated === true) {
+        this.onLogin();
+      }
+    });
+  }
+
+  loadImageConfig = () => {
     if (Cookies.get(COOKIES.IMAGE_BASE_URL) === null) {
-      Config.get('imageProvider').then((config) => {
+      Config.get('imageProvider').then(config => {
         if (config.value === null) {
           this.setState({ isConfigValid: false });
         } else {
@@ -113,48 +122,60 @@ export default class App extends Component {
     this.loadMoreImages();
   }
 
+  onLogin = () => {
+    this.setState({ isLoggedIn: true });
+    this.loadImageConfig();
+  }
+
   render() {
-    const { isConfigValid } = this.state;
+    const { isLoggedIn, isConfigValid } = this.state;
     return (
       <Router>
-        <div>
-          <NotificationHandler />
-          <AppHeader user={this.state.user} isConfigValid={isConfigValid} />
-          <Route
-            exact
-            path='/'
-            render={
-            () => (
-              isConfigValid ? (
-                <EditorPage
-                  images={this.state.images}
-                  imageContext={this.state.imageContext}
-                  onLoadMoreImages={this.loadMoreImages}
-                  onUpdateImageIndex={this.updateImageIndex}
-                  onDbImageDeleted={this.clearCurrentImageId}
-                />
-              ) : (
-                <Redirect to='/settings' />
-              )
-            )}
-          />
-          <Route
-            path='/images'
-            render={
-            () => (
-              <ImagePage
-                images={this.state.images}
-                imageContext={this.state.imageContext}
-                onLoadMoreImages={this.loadMoreImages}
-                onUpdateImageIndex={this.updateImageIndex}
-                onForceImageListRefresh={this.forceImageListRefresh}
+          {isLoggedIn ?
+            <div>
+              <AppHeader isConfigValid={isConfigValid} />
+              <NotificationHandler />
+
+              <Route
+                exact
+                path='/'
+                render={
+                () => (
+                  isConfigValid ? (
+                    <EditorPage
+                      images={this.state.images}
+                      imageContext={this.state.imageContext}
+                      onLoadMoreImages={this.loadMoreImages}
+                      onUpdateImageIndex={this.updateImageIndex}
+                      onDbImageDeleted={this.clearCurrentImageId}
+                    />
+                  ) : (
+                    <Redirect to='/settings' />
+                  )
+                )}
               />
-            )}
-          />
-          <Route path='/labels' component={LabelPage} />
-          <Route path='/export' component={ExportPage} />
-          <Route path='/settings' component={SettingsPage} />
-        </div>
+              <Route
+                path='/images'
+                render={
+                () => (
+                  <ImagePage
+                    images={this.state.images}
+                    imageContext={this.state.imageContext}
+                    onLoadMoreImages={this.loadMoreImages}
+                    onUpdateImageIndex={this.updateImageIndex}
+                    onForceImageListRefresh={this.forceImageListRefresh}
+                  />
+                )}
+              />
+              <Route path='/labels' component={LabelPage} />
+              <Route path='/export' component={ExportPage} />
+              <Route path='/settings' component={SettingsPage} />
+              <Route path='/logout' component={LoginPage} />
+            </div>
+          :
+            <LoginPage onLogin={this.onLogin}/>
+          }
+
       </Router>
     );
   }

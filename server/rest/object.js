@@ -1,4 +1,5 @@
-const ObjectBox = require('../model/object-box.js'),
+const Session = require('../util/session.js'),  
+  ObjectBox = require('../model/object-box.js'),
   Image = require('../model/image.js');
 
 module.exports = class ObjectResource {
@@ -15,6 +16,10 @@ module.exports = class ObjectResource {
 	* Create new object
 	*/
 	createObject(request, response) {
+    const curSession = Session.getSession(request, response);
+    if (curSession == null)
+      return;
+    
     const box = request.body;
     // Check if box has an image id, if not create image in DB first
     if (box.image_id === null) {
@@ -31,10 +36,7 @@ module.exports = class ObjectResource {
         .then(object => {
           response.json(object);
         })
-        .catch(e => {
-          console.log(e.stack);
-          response.status(500).json(e);
-        });
+        .catch(e => logAndReportError('ObjectBox.create', e));
       });
     } else {
       // Create box with existing image id
@@ -42,10 +44,7 @@ module.exports = class ObjectResource {
       .then(object => {
         response.json(object);
       })
-      .catch(e => {
-        console.log(e.stack);
-        response.status(500).json(e);
-      });
+      .catch(e => logAndReportError('ObjectBox.create', e));
     }
 	}
 
@@ -53,41 +52,49 @@ module.exports = class ObjectResource {
 	* Gets the list of objects for this image
 	*/
 	getObjectsFromImage(request, response) {
+    const curSession = Session.getSession(request, response);
+    if (curSession == null)
+      return;
+    
     ObjectBox.getFromImage(request.query.imageId)
       .then(objects => {
         response.json(objects);
       })
-      .catch(e => {
-        console.log(e.stack);
-        response.status(500).json(e);
-      });
+      .catch(e => logAndReportError('ObjectBox.getFromImage', e));
 	}
 
 	/**
 	* Delete object
 	*/
 	deleteObject(request, response) {
+    const curSession = Session.getSession(request, response);
+    if (curSession == null)
+      return;
+    
     ObjectBox.delete(request.body)
       .then((wasLastObject) => {
         response.json({wasLastObject: wasLastObject});
       })
-      .catch(e => {
-        console.log(e.stack);
-        response.status(500).json(e);
-      });
+      .catch(e => logAndReportError('ObjectBox.delete', e));
   }
   
   /**
 	* Gets the number of objects
 	*/
 	getCount(request, response) {
+    const curSession = Session.getSession(request, response);
+    if (curSession == null)
+      return;
+    
     ObjectBox.getCount()
       .then(count => {
         response.json(count);
       })
-      .catch(e => {
-        console.log(e.stack);
-        response.status(500).json(e);
-      });
+      .catch(e => logAndReportError('ObjectBox.getCount', e));
+  }
+
+  static logAndReportError(calledMethod, e) {
+    console.error(calledMethod, e.stack);
+    response.status(500).json(e);
   }
 }

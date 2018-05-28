@@ -12,7 +12,7 @@ export default class Config extends BaseModel {
   clone = () => JSON.parse(JSON.stringify(this))
 
   static get(key) {
-    return fetch(`${RESOURCE_URL}/${key}`).then(super.getJson);
+    return BaseModel.authFetch(`${RESOURCE_URL}/${key}`).then(super.getJson);
   }
 
   static upsert(config) {

@@ -4,15 +4,15 @@ const RESOURCE_URL = '/api/labels';
 
 export default class Label extends BaseModel {
   static getAll() {
-    return fetch(RESOURCE_URL).then(super.getJson);
+    return BaseModel.authFetch(RESOURCE_URL).then(super.getJson);
   }
 
   static getUseCount(labelId) {
-    return fetch(`${RESOURCE_URL}/useCount?labelId=${labelId}`).then(super.getJson);
+    return BaseModel.authFetch(`${RESOURCE_URL}/useCount?labelId=${labelId}`).then(super.getJson);
   }
 
   static getUseCountForAll() {
-    return fetch(`${RESOURCE_URL}/useCount`).then(super.getJson);
+    return BaseModel.authFetch(`${RESOURCE_URL}/useCount`).then(super.getJson);
   }
 
   static create(label) {
@@ -28,6 +28,6 @@ export default class Label extends BaseModel {
   }
 
   static getCount() {
-    return fetch(`${RESOURCE_URL}/count`).then(super.getJson);
+    return BaseModel.authFetch(`${RESOURCE_URL}/count`).then(super.getJson);
   }
 }

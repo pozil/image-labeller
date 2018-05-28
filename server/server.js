@@ -11,7 +11,8 @@ const Config = require('./model/config.js'),
 	ObjectResource = require('./rest/object.js'),
 	LabelResource = require('./rest/label.js'),
   ImageResource = require('./rest/image.js'),
-  ConfigResource = require('./rest/config.js');
+  ConfigResource = require('./rest/config.js'),
+  AuthResource = require('./rest/auth.js');
 
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
@@ -46,6 +47,7 @@ new ImageResource(app, apiRoot);
 new LabelResource(app, apiRoot);
 new ExportResource(app, apiRoot);
 new ConfigResource(app, apiRoot);
+new AuthResource(app, apiRoot);
 
 // Load configuration
 Config.get('imageProvider').then(config => {
@@ -56,6 +58,6 @@ Config.get('imageProvider').then(config => {
 });
 
 // Start HTTP server
-app.listen(app.get('port'), function () {
-	console.log('Server started: http://localhost:' + app.get('port') + '/');
+app.listen(app.get('port'), () => {
+	console.log('Server started on port ' + app.get('port'));
 });

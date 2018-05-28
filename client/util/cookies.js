@@ -19,8 +19,15 @@ export class Cookies {
     return (value === '') ? null : value;
   }
 
+  static deleteAll(path = '/') {
+    document.cookie.split('; ').forEach(cookieAssignment => {
+      const parts = cookieAssignment.split('=');
+      Cookies.delete(parts[0], path);
+    });
+  }
+
   /* Deletes a cookie */
   static delete = (name, path = '/') => {
-    Cookies.setCookie(name, '', -1, path);
+    Cookies.set(name, '', -1, path);
   }
 }

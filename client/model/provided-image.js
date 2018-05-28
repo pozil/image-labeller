@@ -8,6 +8,6 @@ export default class ProvidedImage extends BaseModel {
     if (nextCursor !== null) {
       url += `&next_cursor=${nextCursor}`;
     }
-    return fetch(url).then(super.getJson);
+    return BaseModel.authFetch(url).then(super.getJson);
   }
 }
