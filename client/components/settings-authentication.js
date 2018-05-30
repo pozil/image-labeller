@@ -3,7 +3,7 @@ import { Icon, Button, ButtonGroup, Input } from 'react-lightning-design-system'
 import NotificationHelper from '../util/notification-helper';
 import Password from './password';
 import { Cookies, COOKIES } from '../util/cookies';
-import Config from '../model/config';
+import { Config, CONFIG } from '../model/config';
 
 export default class AuthenticationSettings extends Component {
   constructor(props) {
@@ -19,7 +19,7 @@ export default class AuthenticationSettings extends Component {
   }
 
   componentDidMount = () => {
-    Config.get('authentication').then((config) => {
+    Config.get(CONFIG.AUTHENTICATION).then((config) => {
       if (config.value !== null) {
         this.setState({ config: config.value });
       }
@@ -29,7 +29,7 @@ export default class AuthenticationSettings extends Component {
   }
 
   onEdit = () => {
-    const config = new Config('authentication', this.state.config);
+    const config = new Config(CONFIG.AUTHENTICATION, this.state.config);
     this.setState({
       isEditMode: true,
       config: {
@@ -50,7 +50,7 @@ export default class AuthenticationSettings extends Component {
 
   onEditSave = () => {
     delete this.state.config.password_confirmation;
-    const config = new Config('authentication', this.state.config);
+    const config = new Config(CONFIG.AUTHENTICATION, this.state.config);
     this.setState({
       isEditMode: false,
       config: {
@@ -61,10 +61,7 @@ export default class AuthenticationSettings extends Component {
     });
     Config.upsert(config).then(() => {
       NotificationHelper.notifySuccess(this, 'Authentication configuration saved');
-      // Refresh page if config is not initialized
-      if (Cookies.get(COOKIES.IMAGE_BASE_URL) === null) {
-        window.location = '/';
-      }
+      this.props.onUpdate();
     }, (error) => {
       const message = (typeof error.message === 'undefined') ? 'Server error: failed to save authentication configuration.' : error.message;
       NotificationHelper.notifyError(this, message, error);

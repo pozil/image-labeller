@@ -36,7 +36,7 @@ module.exports = class ObjectResource {
         .then(object => {
           response.json(object);
         })
-        .catch(e => logAndReportError('ObjectBox.create', e));
+        .catch(e => logAndReportError(response, 'ObjectBox.create', e));
       });
     } else {
       // Create box with existing image id
@@ -44,7 +44,7 @@ module.exports = class ObjectResource {
       .then(object => {
         response.json(object);
       })
-      .catch(e => logAndReportError('ObjectBox.create', e));
+      .catch(e => logAndReportError(response, 'ObjectBox.create', e));
     }
 	}
 
@@ -60,7 +60,7 @@ module.exports = class ObjectResource {
       .then(objects => {
         response.json(objects);
       })
-      .catch(e => logAndReportError('ObjectBox.getFromImage', e));
+      .catch(e => logAndReportError(response, 'ObjectBox.getFromImage', e));
 	}
 
 	/**
@@ -75,7 +75,7 @@ module.exports = class ObjectResource {
       .then((wasLastObject) => {
         response.json({wasLastObject: wasLastObject});
       })
-      .catch(e => logAndReportError('ObjectBox.delete', e));
+      .catch(e => logAndReportError(response, 'ObjectBox.delete', e));
   }
   
   /**
@@ -90,11 +90,11 @@ module.exports = class ObjectResource {
       .then(count => {
         response.json(count);
       })
-      .catch(e => logAndReportError('ObjectBox.getCount', e));
+      .catch(e => logAndReportError(response, 'ObjectBox.getCount', e));
   }
+}
 
-  static logAndReportError(calledMethod, e) {
-    console.error(calledMethod, e.stack);
-    response.status(500).json(e);
-  }
+logAndReportError = (response, calledMethod, e) => {
+  console.error(calledMethod, e.stack);
+  response.status(500).json(e);
 }

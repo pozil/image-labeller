@@ -2,11 +2,13 @@
 const db = require('./util/db.js'),
 	path = require('path'),
   express = require('express'),
-  session = require('express-session'),
-  pgSession = require('connect-pg-simple')(session),
-	bodyParser = require('body-parser');
+  expressSession = require('express-session'),
+  pgSession = require('connect-pg-simple')(expressSession),
+	bodyParser = require('body-parser'),
+  cloudinary = require('cloudinary');
 
-const Config = require('./model/config.js'),
+const { Config, CONFIG } = require('./model/config.js'),
+  Session = require('./util/session.js'),
   ExportResource = require('./rest/export.js'),
 	ObjectResource = require('./rest/object.js'),
 	LabelResource = require('./rest/label.js'),
@@ -24,7 +26,7 @@ app.set('port', process.env.PORT || 8080);
 
 // Enable server-side sessions
 const isHttps = (typeof process.env.HTTPS === 'undefined') ? true : (process.env.HTTPS.toLowerCase() === 'true');
-app.use(session({
+app.use(expressSession({
   store: new pgSession({ pool : db.getPool() }),
   secret: process.env.SESSION_SECRET_KEY,
   cookie: {
@@ -50,10 +52,17 @@ new ConfigResource(app, apiRoot);
 new AuthResource(app, apiRoot);
 
 // Load configuration
-Config.get('imageProvider').then(config => {
-  if (config !== null) {
-    const cloudinary = require('cloudinary');
-    cloudinary.config(config.value);
+Config.getAll().then(configItems => {
+  if (configItems.length === 0) {
+    console.warn('Configuration is not set (first time start?)');
+  }
+  else {
+    // Init image provider
+    const imageProvider = configItems.find(item => item.key === CONFIG.IMAGE_PROVIDER);
+    if (typeof imageProvider !== 'undefined') {
+      console.log('Loading image provider...');
+      cloudinary.config(imageProvider.value);
+    }
   }
 });
 

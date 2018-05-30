@@ -3,7 +3,7 @@ const db = require('../util/db.js'),
   httpClient = require('request'),
 	archiver = require('archiver'),
   fs = require('fs'),
-  Config = require('../model/config.js');
+  { Config, CONFIG } = require('../model/config.js');
   Image = require('../model/image.js');
   Label = require('../model/label.js');
   ObjectBox = require('../model/object-box.js');
@@ -54,7 +54,7 @@ module.exports = class ExportResource {
 
 async function addImageFiles(archive) {
   const images = (await db.query('SELECT * FROM images')).rows;
-  const imageBaseUrl = await Config.get('imageProvider').then(config => {
+  const imageBaseUrl = await Config.get(CONFIG.IMAGE_PROVIDER).then(config => {
     if (config !== null) {
       return 'https://res.cloudinary.com/'+ config.value.cloud_name +'/';
     }

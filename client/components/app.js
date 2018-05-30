@@ -14,7 +14,7 @@ import LabelPage from './label-page';
 import ExportPage from './export-page';
 import SettingsPage from './settings-page';
 import Auth from '../model/auth';
-import Config from '../model/config';
+import { Config, CONFIG } from '../model/config';
 import Image from '../model/image';
 import ProvidedImage from '../model/provided-image';
 import { Cookies, COOKIES } from '../util/cookies';
@@ -27,6 +27,7 @@ export default class App extends Component {
     this.state = {
       isLoggedIn: false,
       isConfigValid: true,
+      isConfigLoaded: false,
       images: [],
       imageContext: {
         index: 0,
@@ -44,20 +45,29 @@ export default class App extends Component {
     });
   }
 
+  loadAndCheckConfig = () => {
+    Config.check().then(configStatus => {
+      const validItems = configStatus.filter(item => item.status === 'valid');
+      const isConfigValid = (validItems.length ===  configStatus.length);
+      this.setState({ isConfigValid });
+      if (isConfigValid) {
+        this.loadImageConfig();
+      }
+    });
+  }
+
   loadImageConfig = () => {
+    // Load image provider config
     if (Cookies.get(COOKIES.IMAGE_BASE_URL) === null) {
-      Config.get('imageProvider').then(config => {
-        if (config.value === null) {
-          this.setState({ isConfigValid: false });
-        } else {
-          Cookies.set(COOKIES.IMAGE_BASE_URL, `https://res.cloudinary.com/${config.value.cloud_name}`);
-          this.loadMoreImages();
-        }
+      Config.get(CONFIG.IMAGE_PROVIDER).then(config => {
+        Cookies.set(COOKIES.IMAGE_BASE_URL, `https://res.cloudinary.com/${config.value.cloud_name}`);
+        this.setState({ isConfigLoaded: true });
+        this.loadMoreImages();
       }, (error) => {
         NotificationHelper.notifyError(this, 'Server error: failed to retrieve configuration.', error);
       });
-    }
-    else {
+    } else {
+      this.setState({ isConfigLoaded: true });
       this.loadMoreImages();
     }
   }
@@ -124,11 +134,11 @@ export default class App extends Component {
 
   onLogin = () => {
     this.setState({ isLoggedIn: true });
-    this.loadImageConfig();
+    this.loadAndCheckConfig();
   }
 
   render() {
-    const { isLoggedIn, isConfigValid } = this.state;
+    const { isLoggedIn, isConfigValid, isConfigLoaded } = this.state;
     return (
       <Router>
           {isLoggedIn ?
@@ -142,14 +152,18 @@ export default class App extends Component {
                 render={
                 () => (
                   isConfigValid ? (
-                    <EditorPage
-                      images={this.state.images}
-                      imageContext={this.state.imageContext}
-                      onLoadMoreImages={this.loadMoreImages}
-                      onUpdateImageIndex={this.updateImageIndex}
-                      onDbImageDeleted={this.clearCurrentImageId}
-                    />
-                  ) : (
+                    isConfigLoaded ? (
+                      <EditorPage
+                        images={this.state.images}
+                        imageContext={this.state.imageContext}
+                        onLoadMoreImages={this.loadMoreImages}
+                        onUpdateImageIndex={this.updateImageIndex}
+                        onDbImageDeleted={this.clearCurrentImageId}
+                      />
+                    ) :
+                      null
+                    )
+                  : (
                     <Redirect to='/settings' />
                   )
                 )}
@@ -175,7 +189,6 @@ export default class App extends Component {
           :
             <LoginPage onLogin={this.onLogin}/>
           }
-
       </Router>
     );
   }

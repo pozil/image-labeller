@@ -25,7 +25,7 @@ module.exports = class LabelResource {
       .then(label => {
         response.json(label);
       })
-      .catch(e => logAndReportError('Label.create', e));
+      .catch(e => logAndReportError(response, 'Label.create', e));
 	}
 
 	/**
@@ -40,7 +40,7 @@ module.exports = class LabelResource {
       .then(labels => {
         response.json(labels);
       })
-      .catch(e => logAndReportError('Label.getAll', e));
+      .catch(e => logAndReportError(response, 'Label.getAll', e));
   }
 
   /**
@@ -57,14 +57,14 @@ module.exports = class LabelResource {
       .then(useCounts => {
         response.json(useCounts);
       })
-      .catch(e => logAndReportError('Label.getUseCountForAll', e));
+      .catch(e => logAndReportError(response, 'Label.getUseCountForAll', e));
     } else {
       // Specific label
       Label.getUseCount(request.query.labelId)
       .then(count => {
         response.json(count);
       })
-      .catch(e => logAndReportError('Label.getUseCount', e));
+      .catch(e => logAndReportError(response, 'Label.getUseCount', e));
     }
   }
 
@@ -80,7 +80,7 @@ module.exports = class LabelResource {
       .then(() => {
         response.status(200).send();
       })
-      .catch(e => logAndReportError('Label.update', e));
+      .catch(e => logAndReportError(response, 'Label.update', e));
 	}
 
   /*
@@ -95,7 +95,7 @@ module.exports = class LabelResource {
       .then(() => {
         response.status(200).send();
       })
-      .catch(e => logAndReportError('Label.delete', e));
+      .catch(e => logAndReportError(response, 'Label.delete', e));
   }
   
   /**
@@ -110,11 +110,11 @@ module.exports = class LabelResource {
       .then(count => {
         response.json(count);
       })
-      .catch(e => logAndReportError('Label.getCount', e));
+      .catch(e => logAndReportError(response, 'Label.getCount', e));
   }
+}
 
-  static logAndReportError(calledMethod, e) {
-    console.error(calledMethod, e.stack);
-    response.status(500).json(e);
-  }
+logAndReportError = (response, calledMethod, e) => {
+  console.error(calledMethod, e.stack);
+  response.status(500).json(e);
 }

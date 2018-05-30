@@ -3,7 +3,7 @@ import { Icon, Button, ButtonGroup, Input } from 'react-lightning-design-system'
 import Password from './password';
 import NotificationHelper from '../util/notification-helper';
 import { Cookies, COOKIES } from '../util/cookies';
-import Config from '../model/config';
+import { Config, CONFIG } from '../model/config';
 
 export default class ImageProviderSettings extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export default class ImageProviderSettings extends Component {
   }
 
   componentDidMount = () => {
-    Config.get('imageProvider').then((config) => {
+    Config.get(CONFIG.IMAGE_PROVIDER).then((config) => {
       if (config.value !== null) {
         this.setState({ config: config.value });
       }
@@ -31,7 +31,7 @@ export default class ImageProviderSettings extends Component {
   }
 
   onEdit = () => {
-    const config = new Config('imageProvider', this.state.config);
+    const config = new Config(CONFIG.IMAGE_PROVIDER, this.state.config);
     this.setState({
       isEditMode: true,
       backupConfig: config.clone().value,
@@ -46,17 +46,15 @@ export default class ImageProviderSettings extends Component {
   })
 
   onEditSave = () => {
-    const config = new Config('imageProvider', this.state.config);
+    const config = new Config(CONFIG.IMAGE_PROVIDER, this.state.config);
     this.setState({
       isEditMode: false,
       backupConfig: null,
     });
     Config.upsert(config).then(() => {
-      NotificationHelper.notifySuccess(this, 'Image provider configuration validated');
-      // Refresh page if config is not initialized
-      if (Cookies.get(COOKIES.IMAGE_BASE_URL) === null) {
-        window.location = '/';
-      }
+      Cookies.set(COOKIES.IMAGE_BASE_URL, `https://res.cloudinary.com/${config.value.cloud_name}`);
+      NotificationHelper.notifySuccess(this, 'Image provider configuration saved and validated');
+      this.props.onUpdate();
     }, (error) => {
       const message = (typeof error.message === 'undefined') ? 'Server error: failed to save image provider configuration.' : error.message;
       NotificationHelper.notifyError(this, message, error);

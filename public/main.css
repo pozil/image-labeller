@@ -131,3 +131,7 @@ html, body, #react-root, #react-root>div { height: 100%; }
 .popover-anchor:hover .slds-popover {
   display: block;
 }
+
+.slds-icon.success { fill:#4bca81; }
+.slds-icon.warning { fill:#ffb75d; }
+.slds-icon.error { fill:#c23934; }

@@ -43,7 +43,7 @@ module.exports = class ImageResource {
       .then(image => {
         response.json({image});
       })
-      .catch(e => logAndReportError('Image.getFromFilename', e));
+      .catch(e => logAndReportError(response, 'Image.getFromFilename', e));
   }
   
   /**
@@ -58,11 +58,11 @@ module.exports = class ImageResource {
       .then(count => {
         response.json(count);
       })
-      .catch(e => logAndReportError('Image.getCount', e));
+      .catch(e => logAndReportError(response, 'Image.getCount', e));
   }
+}
 
-  static logAndReportError(calledMethod, e) {
-    console.error(calledMethod, e.stack);
-    response.status(500).json(e);
-  }
+logAndReportError = (response, calledMethod, e) => {
+  console.error(calledMethod, e.stack);
+  response.status(500).json(e);
 }

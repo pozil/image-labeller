@@ -1,15 +1,20 @@
 const db = require('../util/db.js');
 const bcrypt = require('bcrypt');
 
-const AUTHENTICATION = 'authentication';
+const CONFIG = Object.freeze({
+  AUTHENTICATION: 'authentication',
+  IMAGE_PROVIDER: 'imageProvider',
+});
 
-module.exports = class Config {
+module.exports.CONFIG = CONFIG;
+
+module.exports.Config = class {
   /**
 	* Upsert a config
 	*/
 	static upsert(config) {
     // Hash password before saving it
-    if (config.key === AUTHENTICATION) {
+    if (config.key === CONFIG.AUTHENTICATION) {
       config.value.password = bcrypt.hashSync(config.value.password, 10);
     }
 
@@ -30,9 +35,9 @@ module.exports = class Config {
           return null;
         } else {
           let config = res.rows[0];
-          switch (key) {
-            case AUTHENTICATION:
-              config.value.password = ''; // Never return the password to the client
+          switch (config.key) {
+            case CONFIG.AUTHENTICATION:
+              config.value.password = ''; // Never return the password
             break;
             default:
             break;
@@ -43,11 +48,31 @@ module.exports = class Config {
   }
 
   /**
+	* Gets all config data as an array. Returns empty array is none is set.
+	*/
+	static getAll() {
+    return db.query('SELECT key, value FROM config')
+      .then(res => {
+        return res.rows.map(item => {
+          let updatedItem = item;
+          switch (item.key) {
+            case CONFIG.AUTHENTICATION:
+              updatedItem.value.password = ''; // Never return the password
+            break;
+            default:
+            break;
+          }
+          return updatedItem;
+        });
+      });
+  }
+
+  /**
   * Performs authentication with user credentials
   * Returns true if authentication succeeded else false
   */
   static authenticate(credentials) {
-    return db.query('SELECT key, value FROM config WHERE key=$1', [AUTHENTICATION])
+    return db.query('SELECT key, value FROM config WHERE key=$1', [CONFIG.AUTHENTICATION])
       .then(res => {
         if (res.rows.length === 0) {
           return false;

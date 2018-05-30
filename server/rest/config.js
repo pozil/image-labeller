@@ -1,9 +1,7 @@
 const db = require('../util/db.js'),
   Session = require('../util/session.js'),
-  Config = require('../model/config.js'),
+  { Config, CONFIG } = require('../model/config.js'),
   cloudinary = require('cloudinary');
-
-const IMAGE_PROVIDER = 'imageProvider';
 
 module.exports = class ConfigResource {
 
@@ -11,6 +9,7 @@ module.exports = class ConfigResource {
     const resourceUrl = apiRoot +'config';
     app.get(resourceUrl +'/:key', this.getConfig);
     app.put(resourceUrl, this.upsertConfig);
+    app.get(resourceUrl +'Check', this.checkConfig);
 	}
 
 	/**
@@ -23,13 +22,13 @@ module.exports = class ConfigResource {
     
     Config.upsert(request.body).then(config => {
       // Test image provider config
-      if (config.key === IMAGE_PROVIDER) {
+      if (config.key === CONFIG.IMAGE_PROVIDER) {
         ConfigResource.testImageProviderConfig(response, config);
       } else {
         response.json(config);
       }
     })
-    .catch(e => logAndReportError('Config.upsertConfig', e));
+    .catch(e => logAndReportError(response, 'Config.upsertConfig', e));
 	}
 
 	/**
@@ -47,7 +46,28 @@ module.exports = class ConfigResource {
         response.json(config);
       }
     })
-    .catch(e => logAndReportError('Config.getConfig', e));
+    .catch(e => logAndReportError(response, 'Config.getConfig', e));
+  }
+
+  /**
+	* Checks app configuration
+	*/
+	checkConfig(request, response) {
+    const curSession = Session.getSession(request, response);
+    if (curSession == null)
+      return;
+    
+    Config.getAll().then(configItems => {
+      const configStatus = [];  
+      Object.keys(CONFIG).forEach(keyName => {
+        const key = CONFIG[keyName];
+        const configItem = configItems.find(item => item.key === key);
+        const status = (typeof configItem === 'undefined') ? 'missing' : 'valid';
+        configStatus.push({key, status});
+      });
+      response.json(configStatus);
+    })
+    .catch(e => logAndReportError(response, 'Config.checkConfig', e));
   }
 
   static testImageProviderConfig(response, config) {
@@ -71,9 +91,9 @@ module.exports = class ConfigResource {
       response.status(500).json({message: baseError +': '+ error});
     }
   }
+}
 
-  static logAndReportError(calledMethod, e) {
-    console.error(calledMethod, e.stack);
-    response.status(500).json(e);
-  }
+logAndReportError = (response, calledMethod, e) => {
+  console.error(calledMethod, e.stack);
+  response.status(500).json(e);
 }

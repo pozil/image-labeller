@@ -13,7 +13,7 @@ module.exports.getSession = (request, response, isRedirectOnMissingSession = tru
   return request.session;
 }
 
-module.exports.setAuthenticated = (request, response) => {
+module.exports.setAuthenticated = (request) => {
   request.session.isAuthenticated = true;
 }
 
