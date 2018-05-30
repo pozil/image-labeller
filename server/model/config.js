@@ -21,7 +21,7 @@ module.exports = class Config {
 	}
 
 	/**
-	* Gets a config based on its key. Returns a new config is none is set.
+	* Gets a config based on its key. Returns null is none is set.
 	*/
 	static get(key) {
     return db.query('SELECT key, value FROM config WHERE key=$1', [key])

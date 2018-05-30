@@ -77,9 +77,9 @@ export default class LoginPage extends Component {
 
         <NotificationHandler />
 
-        <article className='slds-card login-form'>
-          
-          <div className='slds-form slds-form_stacked slds-m-around_large'>
+        <article className='slds-card login-form slds-p-around_large'>
+          <div className='slds-text-heading_medium slds-text-align_center slds-m-bottom_medium'>Image Labeller</div>
+          <div className='slds-form slds-form_stacked'>
             <Input label='Username' value={credentials.username} onInput={this.onChangeUsername} onKeyDown={this.onKeyDown}/>
             <Password label='Password' value={credentials.password} onInput={this.onChangePassword} onKeyDown={this.onKeyDown}/>
             <Button type='brand' onClick={this.onLogin} className='slds-align_absolute-center slds-m-top_large'>Log In</Button>

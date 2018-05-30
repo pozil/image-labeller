@@ -12,6 +12,14 @@ export default class NotificationHelper {
     NotificationHelper.dispatchNotification(sourceComponent, 'success', message);
   }
 
+  static notifyInfo = (sourceComponent, message) => {
+    NotificationHelper.dispatchNotification(sourceComponent, 'info', message);
+  }
+
+  static notifyWarning = (sourceComponent, message) => {
+    NotificationHelper.dispatchNotification(sourceComponent, 'warning', message);
+  }
+
   static dispatchNotification = (sourceComponent, type, message) => {
     const notificationEvent = new CustomEvent('appNotification', {
       detail: {
