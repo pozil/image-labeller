@@ -2,7 +2,15 @@
 
 ## Installation
 
-<b>/!\ This is work in progress so access to this tool is not secured yet: only work on a local installation. /!\ </b>
+### The easy way (recommnended)
+Just click on this button:
+<p align="center">
+  <a href="https://heroku.com/deploy">
+    <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
+  </a>
+<p>
+
+### Manual or offline installation
 
 This tool requires the following:
 - NPM
