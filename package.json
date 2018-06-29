@@ -8,6 +8,7 @@
   "main": "server/server.js",
   "dependencies": {
     "@salesforce-ux/design-system": "^2.6.1",
+    "react-relative-portal": "https://github.com/stomita/react-relative-portal",
     "archiver": "~2.1.0",
     "babel-runtime": "^6.6.1",
     "bcrypt": "^2.0.1",
