@@ -3,5 +3,18 @@
   "description": "An Image Labeller tool for Salesforce Einstein Object Detection",
   "repository": "https://github.com/pozil/image-labeller",
   "logo": "https://github.com/pozil/image-labeller/raw/master/public/gfx/logo-square.png",
-  "keywords": ["einstein", "salesforce", "image-classification", "object-detection", "vision"]
+  "keywords": ["einstein", "salesforce", "image-classification", "object-detection", "vision"],
+  "env": {
+    "HTTPS": {
+      "description": "Whether you use HTTPS to secure the connection to your server (generally false on a local setup)",
+      "generator": "false"
+    },
+    "SESSION_SECRET_KEY": {
+      "description": "A random string used to secure your server sessions",
+      "value": "ChangeMe-19%'!"
+    }
+  },
+  "addons": [
+    "heroku-postgresql"
+  ]
 }
