@@ -20,7 +20,7 @@
     "heroku-postgresql"
   ],
   "scripts": {
-    "postdeploy": "heroku pg:psql -f db_init.sql"
+    "postdeploy": "psql $DATABASE_URL -f db_init.sql"
   },
   "success_url": "/"
 }
