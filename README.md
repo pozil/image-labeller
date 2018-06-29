@@ -1,9 +1,14 @@
+<img src="public/gfx/logo-rect.png" alt="Lookup with dropdown open" width="300" align="right"/>
+
 # Image Labeller for Salesforce Einstein Object Detection
+
+This tool is provided “as is“ without any warranty or support. Salesforce does not officially endorse it.
 
 ## Installation
 
-### The easy way (recommnended)
-Just click on this button:
+### Heroku deploy (recommended)
+Click on this button and follow the instructions to deploy the app:
+
 <p align="center">
   <a href="https://heroku.com/deploy">
     <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
@@ -35,8 +40,8 @@ DATABASE_URL='postgres://img:img@localhost:5432/img'
 
 | Property           | Description |
 | ------------------ |-------------|
-| HTTPS              | whether you use HTTPS to secure the connection to your server (generally `false` on a local setup) |
-| SESSION_SECRET_KEY | a random string used to secure your server sessions |
+| HTTPS              | Whether you use HTTPS to secure the connection to your server (generally `false` on a local setup) |
+| SESSION_SECRET_KEY | A random string used to secure your server sessions |
 | DATABASE_URL       | URL to your PostgreSQL database |
 
 4. Run the NPM installation script: `npm install`
