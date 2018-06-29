@@ -19,5 +19,8 @@
   "addons": [
     "heroku-postgresql"
   ],
+  "scripts": {
+    "postdeploy": "psql -f db_init.sql"
+  },
   "success_url": "/"
 }
