@@ -2,6 +2,6 @@
   "name": "Image Labeller",
   "description": "An Image Labeller tool for Salesforce Einstein Object Detection",
   "repository": "https://github.com/pozil/image-labeller",
-  "logo": "https://github.com/pozil/image-labeller/logo-square.png",
+  "logo": "https://github.com/pozil/image-labeller/raw/master/public/gfx/logo-square.png",
   "keywords": ["einstein", "salesforce", "image-classification", "object-detection", "vision"]
 }
