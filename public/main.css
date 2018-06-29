@@ -6,6 +6,12 @@ html, body, #react-root, #react-root>div { height: 100%; }
     box-shadow: 0 2px 4px rgba(0,0,0,.07);
 }
 
+.slds-global-header_container .logo {
+  background: url('/gfx/logo-rect.png') no-repeat center center;
+  width: 100px;
+  background-size: 90px;
+}
+
 .app-controls {
 	justify-content: flex-end;
 }
@@ -101,6 +107,10 @@ html, body, #react-root, #react-root>div { height: 100%; }
   position: absolute;
   top: calc(50% - 10rem);
   left: calc(50% - 10rem);
+}
+
+.login-form .logo {
+  width: 100px;
 }
 
 .login-form button {

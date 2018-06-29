@@ -68,6 +68,7 @@ export default class LoginPage extends Component {
         <header className='slds-global-header_container'>
           <div className='slds-context-bar'>
             <div className='slds-context-bar__primary'>
+              <div className='logo'></div>
               <span className='slds-context-bar__label-action slds-context-bar__app-name'>
                 <span className='slds-truncate'>Image Labeller</span>
               </span>
@@ -78,7 +79,16 @@ export default class LoginPage extends Component {
         <NotificationHandler />
 
         <article className='slds-card login-form slds-p-around_large'>
-          <div className='slds-text-heading_medium slds-text-align_center slds-m-bottom_medium'>Image Labeller</div>
+          
+          <div className='slds-media slds-media_center slds-m-bottom_medium'>
+            <div className='slds-media__figure'>
+              <img src="/gfx/logo-rect.png" alt="App logo" className='logo'/>
+            </div>
+            <div className='slds-media__body'>
+              <div className='slds-text-heading_medium'>Image Labeller</div>
+            </div>
+          </div>
+          
           <div className='slds-form slds-form_stacked'>
             <Input label='Username' value={credentials.username} onInput={this.onChangeUsername} onKeyDown={this.onKeyDown}/>
             <Password label='Password' value={credentials.password} onInput={this.onChangePassword} onKeyDown={this.onKeyDown}/>

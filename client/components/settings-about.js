@@ -22,17 +22,26 @@ export default class About extends Component {
 
         <div className='slds-card__body'>
           <div className='slds-card__body_inner slds-p-bottom_small'>
-            <p className='slds-text-heading_medium'>Image Labeller</p>
-            <p>v1.0.0 <a href='https://github.com/pozil/image-labeller' target='_blank' className='slds-p-left_small'>Project page</a></p>
             
-            <div className='slds-media slds-media_center slds-p-vertical_small slds-p-left_small'>
+            
+          <div className='slds-media slds-media_center slds-p-vertical_small slds-p-left_small'>
               <div className='slds-media__figure'>
-                <Icon category='utility' icon='socialshare' size='small'/>
+                <img src="gfx/logo-rect.png" alt="Logo" width="200"/>
               </div>
               <div className='slds-media__body'>
-                <p>Philippe Ozil</p>
-                <p><a href='https://twitter.com/PhilippeOzil' target='_blank'>@PhilippeOzil</a></p>
-                <p><a href='https://www.linkedin.com/in/philippeozil' target='_blank'>in/PhilippeOzil</a></p>
+                <p className='slds-text-heading_medium'>Image Labeller</p>
+                <p>v1.0.0 <a href='https://github.com/pozil/image-labeller' target='_blank' className='slds-p-left_small'>Project page</a></p>
+                
+                <div className='slds-media slds-media_center slds-p-vertical_small slds-p-left_small'>
+                  <div className='slds-media__figure'>
+                    <Icon category='utility' icon='socialshare' size='small'/>
+                  </div>
+                  <div className='slds-media__body'>
+                    <p>Philippe Ozil</p>
+                    <p><a href='https://twitter.com/PhilippeOzil' target='_blank'>@PhilippeOzil</a></p>
+                    <p><a href='https://www.linkedin.com/in/philippeozil' target='_blank'>in/PhilippeOzil</a></p>
+                  </div>
+                </div>
               </div>
             </div>
 
