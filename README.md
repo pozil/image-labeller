@@ -1,10 +1,17 @@
 <img src="public/gfx/logo-rect.png" alt="Logo" width="300" align="right"/>
 
 # Image Labeller for Salesforce Einstein Object Detection
+This tools allow to label images for Salesforce Einstein Object Detection.
+
+**Features:**
+- Easy online installation, local installation also possible
+- Exports a zip file compatible with Salesforce Einstein Object Detection model
+- Images hosted on Cloudinary
+- Responsive app
 
 This tool is provided “as is“ without any warranty or support. Salesforce does not officially endorse it.
 
-<table>
+<table border="0">
   <tr>
     <td><img src="screenshots/editor.png" alt="Editor screenshot" width="300"/></td>
     <td><img src="screenshots/images.png" alt="Images screenshot" width="300"/></td>
@@ -31,7 +38,7 @@ Click on this button and follow the instructions to deploy the app:
   <img src="screenshots/setup.png" alt="Setup screenshot" width="400"/>
 </p>
 
-### Manual or offline installation
+### Local installation
 
 This tool requires the following:
 - NPM
