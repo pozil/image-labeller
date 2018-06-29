@@ -7,11 +7,11 @@
   "env": {
     "HTTPS": {
       "description": "Whether you use HTTPS to secure the connection to your server (generally false on a local setup)",
-      "generator": "false"
+      "value": "false"
     },
     "SESSION_SECRET_KEY": {
       "description": "A random string used to secure your server sessions",
-      "value": "ChangeMe-19%'!"
+      "generator": "secret"
     }
   },
   "addons": [
