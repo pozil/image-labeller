@@ -7,14 +7,17 @@
   "env": {
     "HTTPS": {
       "description": "Whether you use HTTPS to secure the connection to your server (generally false on a local setup)",
-      "value": "false"
+      "value": "false",
+      "required": true
     },
     "SESSION_SECRET_KEY": {
       "description": "A random string used to secure your server sessions",
-      "generator": "secret"
+      "generator": "secret",
+      "required": true
     }
   },
   "addons": [
     "heroku-postgresql"
-  ]
+  ],
+  "success_url": "/"
 }
