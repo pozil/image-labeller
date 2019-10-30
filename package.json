@@ -49,7 +49,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/server.js",
     "lint": "eslint --ext .js client/**",
-    "build": "rm -fr public/scripts && mkdir -p public/scripts && browserify -d client/app.js -o public/scripts/bundle.min.js -t [ babelify ]",
+    "build": "rm -fr public/scripts && mkdir -p public/scripts && ./node_modules/.bin/browserify -d client/app.js -o public/scripts/bundle.min.js -t [ babelify ]",
     "build-n-start": "npm run build && npm run start",
     "preinstall": "rm -fr public/assets",
     "postinstall": "cp -r node_modules/@salesforce-ux/design-system/assets public"
