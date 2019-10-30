@@ -7,19 +7,19 @@
   "private": true,
   "main": "server/server.js",
   "dependencies": {
-    "@salesforce-ux/design-system": "^2.7.4",
+    "@salesforce-ux/design-system": "^2.10.2",
     "archiver": "~2.1.0",
     "babel-runtime": "^6.6.1",
-    "bcrypt": "^3.0.2",
-    "body-parser": "^1.18.3",
-    "cloudinary": "^1.11.0",
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "cloudinary": "^1.16.0",
     "connect-pg-simple": "^6.0.1",
-    "express": "^4.16.4",
-    "express-session": "^1.15.6",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "pg": "~7.3.0",
     "pg-format": "~1.0.4",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
     "react-relative-portal": "git+https://github.com/stomita/react-relative-portal.git",
     "react-router-dom": "^4.3.1",
     "request": "^2.88.0",
@@ -29,7 +29,6 @@
     "babel-cli": "^6.18.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^7.0.0",
-    "babel-jest": "^16.0.0",
     "babel-plugin-espower": "^2.1.2",
     "babel-plugin-transform-class-properties": "^6.19.0",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
@@ -38,12 +37,12 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.5.0",
     "babelify": "^8.0.0",
-    "browserify": "^16.2.3",
+    "browserify": "^16.5.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.16.0",
     "react-lightning-design-system": "^2.5.7"
   },
   "scripts": {
@@ -62,6 +61,6 @@
   },
   "homepage": "https://github.com/pozil/image-labeller",
   "engines": {
-    "node": "8.7.x"
+    "node": ">=10.0.0"
   }
 }
