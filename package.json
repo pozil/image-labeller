@@ -7,7 +7,7 @@
   "private": true,
   "main": "server/server.js",
   "dependencies": {
-    "@salesforce-ux/design-system": "^2.10.2",
+    "@salesforce-ux/design-system": "2.6.1",
     "archiver": "~2.1.0",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
