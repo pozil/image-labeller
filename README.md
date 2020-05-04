@@ -1,7 +1,7 @@
 <img src="public/gfx/logo-rect.png" alt="Logo" width="300" align="right"/>
 
 # Image Labeller for Salesforce Einstein Object Detection
-This tool allows to label images in order to train a [Salesforce Einstein Object Detection](https://metamind.readme.io/v2/docs) model.
+This tool allows to label images in order to train a [Salesforce Einstein Object Detection]https://metamind.readme.io/docs/od_qs_scenario) model.
 
 **Features:**
 - Easy online installation via Heroku, local installation is also possible

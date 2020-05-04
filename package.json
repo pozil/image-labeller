@@ -1,6 +1,6 @@
 {
   "name": "image-labeller",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "author": "Philippe Ozil",
   "description": "Image labeller for Salesforce Einstein Object Detection",
   "license": "see LICENSE file",
