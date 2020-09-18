@@ -64,11 +64,7 @@ module.exports.Config = class {
           }
           return updatedItem;
         });
-      })
-      .catch(error => {
-        console.error('Failed to load configuration');
-        console.error(error);
-      })
+      });
   }
 
   /**

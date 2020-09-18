@@ -20,5 +20,9 @@ module.exports.connect = () => {
 }
 
 module.exports.query = (text, values) => {
-	return pool.query(text, values);
+  return pool.query(text, values)
+    .catch(error => {
+      console.error('DB Query failed: ', text, values);
+      console.error(error);
+    });
 }
