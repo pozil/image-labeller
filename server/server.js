@@ -8,7 +8,6 @@ const db = require('./util/db.js'),
   cloudinary = require('cloudinary');
 
 const { Config, CONFIG } = require('./model/config.js'),
-  Session = require('./util/session.js'),
   ExportResource = require('./rest/export.js'),
 	ObjectResource = require('./rest/object.js'),
 	LabelResource = require('./rest/label.js'),
@@ -19,6 +18,17 @@ const { Config, CONFIG } = require('./model/config.js'),
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
 });
+
+// Test DB
+db.query('SELECT COUNT(*) FROM config')
+  .then(() => {
+    console.log('Connected to DB');
+  })
+  .catch(error => {
+    console.error('Failed to connect to DB');
+    console.error(error);
+    process.exit(-1);
+  });
 
 // Setup HTTP server
 const app = express();
@@ -52,19 +62,25 @@ new ConfigResource(app, apiRoot);
 new AuthResource(app, apiRoot);
 
 // Load configuration
-Config.getAll().then(configItems => {
-  if (configItems.length === 0) {
-    console.warn('Configuration is not set (first time start?)');
-  }
-  else {
-    // Init image provider
-    const imageProvider = configItems.find(item => item.key === CONFIG.IMAGE_PROVIDER);
-    if (typeof imageProvider !== 'undefined') {
-      console.log('Loading image provider...');
-      cloudinary.config(imageProvider.value);
+Config.getAll()
+  .then(configItems => {
+    if (configItems.length === 0) {
+      console.warn('Configuration is not set (first time start?)');
     }
-  }
-});
+    else {
+      // Init image provider
+      const imageProvider = configItems.find(item => item.key === CONFIG.IMAGE_PROVIDER);
+      if (typeof imageProvider !== 'undefined') {
+        console.log('Loading image provider...');
+        cloudinary.config(imageProvider.value);
+      }
+    }
+  })
+  .catch(error => {
+    console.error('Failed to load configuration');
+    console.error(error);
+    process.exit(-1);
+  });
 
 // Start HTTP server
 app.listen(app.get('port'), () => {

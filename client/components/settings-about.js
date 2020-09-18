@@ -30,7 +30,7 @@ export default class About extends Component {
               </div>
               <div className='slds-media__body'>
                 <p className='slds-text-heading_medium'>Image Labeller</p>
-                <p>v1.0.0 <a href='https://github.com/pozil/image-labeller' target='_blank' className='slds-p-left_small'>Project page</a></p>
+                <p>v1.1.0 <a href='https://github.com/pozil/image-labeller' target='_blank' className='slds-p-left_small'>Project page</a></p>
                 
                 <div className='slds-media slds-media_center slds-p-vertical_small slds-p-left_small'>
                   <div className='slds-media__figure'>
