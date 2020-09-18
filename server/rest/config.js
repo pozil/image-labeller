@@ -76,7 +76,7 @@ module.exports = class ConfigResource {
       cloudinary.config(config.value);
       cloudinary.v2.api.usage((error, result) => {
         if (error) {
-          console.error('config.testConfig', error);
+          console.error('Image provider test error: ', error);
           if (typeof error.message === 'undefined') {
             error.message = baseError;
           } else {

@@ -64,8 +64,6 @@ new AuthResource(app, apiRoot);
 // Load configuration
 Config.getAll()
   .then(configItems => {
-    console.log('Config loaded', JSON.stringify(configItems));
-
     if (configItems.length === 0) {
       console.warn('Configuration is not set (first time start?)');
     }
