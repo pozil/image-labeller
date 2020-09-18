@@ -49,24 +49,29 @@ new LabelResource(app, apiRoot);
 new ExportResource(app, apiRoot);
 new ConfigResource(app, apiRoot);
 new AuthResource(app, apiRoot);
-console.log('REST endpoints configured');
 
 // Load configuration
-Config.getAll().then(configItems => {
-  console.log('Config loaded', JSON.stringify(configItems));
+Config.getAll()
+  .then(configItems => {
+    console.log('Config loaded', JSON.stringify(configItems));
 
-  if (configItems.length === 0) {
-    console.warn('Configuration is not set (first time start?)');
-  }
-  else {
-    // Init image provider
-    const imageProvider = configItems.find(item => item.key === CONFIG.IMAGE_PROVIDER);
-    if (typeof imageProvider !== 'undefined') {
-      console.log('Loading image provider...');
-      cloudinary.config(imageProvider.value);
+    if (configItems.length === 0) {
+      console.warn('Configuration is not set (first time start?)');
     }
-  }
-});
+    else {
+      // Init image provider
+      const imageProvider = configItems.find(item => item.key === CONFIG.IMAGE_PROVIDER);
+      if (typeof imageProvider !== 'undefined') {
+        console.log('Loading image provider...');
+        cloudinary.config(imageProvider.value);
+      }
+    }
+  })
+  .catch(error => {
+    console.error('Failed to load configuration');
+    console.error(error);
+    process.exit(-1);
+  });
 
 // Start HTTP server
 app.listen(app.get('port'), () => {
