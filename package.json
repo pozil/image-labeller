@@ -15,15 +15,14 @@
     "connect-pg-simple": "^6.2.1",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-    "pg": "~7.3.0",
-    "pg-format": "~1.0.4",
+    "pg": "~8.3.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-lightning-design-system": "^2.5.8",
     "react-relative-portal": "git+https://github.com/stomita/react-relative-portal.git",
     "react-router-dom": "^4.3.1",
     "request": "^2.88.2",
-    "underscore": "~1.8.3"
+    "underscore": "~1.11.0"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

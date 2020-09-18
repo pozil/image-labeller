@@ -7,20 +7,12 @@ const pool = new Pool({
 });
 
 pool.on('error', (error, client) => {
-  console.error('Unexpected error on idle client', error)
-  process.exit(-1)
+  console.error('Unexpected error on idle client', error);
+  process.exit(-1);
 });
 
 module.exports.getPool = () => {
 	return pool;
-}
-
-module.exports.connect = () => {
-  return pool.connect()
-    .catch(error => {
-      console.error('Failed to connect to DB');
-      console.error(error);
-    });
 }
 
 module.exports.query = (text, values) => {

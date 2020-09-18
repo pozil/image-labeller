@@ -20,7 +20,7 @@ process.on('unhandledRejection', (reason, p) => {
 });
 
 // Test DB
-db.connect()
+db.query('SELECT COUNT(*) FROM config')
   .then(() => {
     console.log('Connected to DB');
   })
