@@ -16,7 +16,11 @@ module.exports.getPool = () => {
 }
 
 module.exports.connect = () => {
-	return pool.connect();
+  return pool.connect()
+    .catch(error => {
+      console.error('Failed to connect to DB');
+      console.error(error);
+    });
 }
 
 module.exports.query = (text, values) => {

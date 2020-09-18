@@ -19,6 +19,17 @@ process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
 });
 
+// Test DB
+db.connect()
+  .then(() => {
+    console.log('Connected to DB');
+  })
+  .catch(error => {
+    console.error('Failed to connect to DB');
+    console.error(error);
+    process.exit(-1);
+  });
+
 // Setup HTTP server
 const app = express();
 app.set('port', process.env.PORT || 8080);
