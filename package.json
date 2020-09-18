@@ -9,10 +9,10 @@
   "dependencies": {
     "@salesforce-ux/design-system": "2.6.1",
     "archiver": "~2.1.0",
-    "bcrypt": "^3.0.8",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
-    "cloudinary": "^1.21.0",
-    "connect-pg-simple": "^6.1.0",
+    "cloudinary": "^1.23.0",
+    "connect-pg-simple": "^6.2.1",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "pg": "~7.3.0",
@@ -38,12 +38,12 @@
     "babel-preset-react": "^6.5.0",
     "babel-runtime": "^6.6.1",
     "babelify": "^8.0.0",
-    "browserify": "^16.5.1",
+    "browserify": "^16.5.2",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.19.0"
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.6"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
