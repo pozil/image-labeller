@@ -8,7 +8,6 @@ const db = require('./util/db.js'),
   cloudinary = require('cloudinary');
 
 const { Config, CONFIG } = require('./model/config.js'),
-  Session = require('./util/session.js'),
   ExportResource = require('./rest/export.js'),
 	ObjectResource = require('./rest/object.js'),
 	LabelResource = require('./rest/label.js'),
@@ -50,9 +49,12 @@ new LabelResource(app, apiRoot);
 new ExportResource(app, apiRoot);
 new ConfigResource(app, apiRoot);
 new AuthResource(app, apiRoot);
+console.log('REST endpoints configured');
 
 // Load configuration
 Config.getAll().then(configItems => {
+  console.log('Config loaded', JSON.stringify(configItems));
+
   if (configItems.length === 0) {
     console.warn('Configuration is not set (first time start?)');
   }
